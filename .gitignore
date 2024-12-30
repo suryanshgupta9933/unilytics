@@ -1,5 +1,4 @@
 __pycache__/
 *.ipynb
 *.json
-*.xlsx
 *.env
