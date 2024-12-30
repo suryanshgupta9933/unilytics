@@ -1,4 +1,6 @@
 # Importing Dependencies
+import base64
+from io import BytesIO
 import warnings
 import pandas as pd
 import pycountry
@@ -55,3 +57,12 @@ def preprocessing_dates(data):
     df['Year'] = df['Date'].dt.year
     df = df.groupby('Date')['Clicks'].sum()
     return df
+
+def load_image(figure):
+    """
+    Function to load and encode an image from a matplotlib figure
+    """
+    buf = BytesIO()
+    figure.savefig(buf, format="png")
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode("utf-8")
