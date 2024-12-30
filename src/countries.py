@@ -11,8 +11,8 @@ def top_country(data):
     """
     df = pd.read_excel(data, sheet_name='Countries')
     top_country = df['Country'][0]
-    top_country_clicks = format_number(df['Clicks'][0])
-    top_country_impressions = format_number(df['Impressions'][0])
+    top_country_clicks = df['Clicks'][0]
+    top_country_impressions = df['Impressions'][0]
     return top_country, top_country_clicks, top_country_impressions
 
 def top_10_countries(data):
@@ -31,6 +31,6 @@ def global_traffic(data):
     Function to get the global traffic
     """
     df = pd.read_excel(data, sheet_name='Countries')
-    global_clicks = format_number(df['Clicks'].sum())
-    global_impressions = format_number(df['Impressions'].sum())
+    global_clicks = df['Clicks'].sum()
+    global_impressions = df['Impressions'].sum()
     return global_clicks, global_impressions

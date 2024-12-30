@@ -6,7 +6,6 @@ from pytrends.request import TrendReq
 from .branded import detect_brand_term
 from .countries import top_country
 from .utils import get_timeframe, country_code
-
 warnings.filterwarnings('ignore')
 
 def get_trends(data):
