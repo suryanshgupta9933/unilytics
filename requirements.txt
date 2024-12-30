@@ -1,5 +1,10 @@
 pandas
 pytrends
 pycountry
+langchain_openai
 langchain_community
 beautifulsoup4
+streamlit
+python-dotenv
+matplotlib
+openpyxl
