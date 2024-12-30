@@ -5,6 +5,7 @@ from src.utils import format_number
 from src.countries import top_10_countries, global_traffic
 from src.branded import detect_brand_term, branded_traffic
 from src.charts import avg_ctr_by_position, click_variance
+from src.agent import Agent
 
 # Page Config
 st.set_page_config(
@@ -13,7 +14,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Page Title
 st.title("Unilytics")
@@ -27,7 +28,13 @@ upload_button = st.sidebar.button("Upload")
 
 # Main Section
 if uploaded_file and upload_button:
+    # Session State
+    st.session_state.agent = Agent(uploaded_file)
+    
     st.markdown("### :blue[Insights Analysis]")
+    with st.expander("Brand Analysis", expanded=True):
+        st.markdown(st.session_state.agent.brand_summary())
+
     with st.expander("Global Traffic", expanded=False):
         clicks, impressions = global_traffic(uploaded_file)
         st.markdown("#### Clicks: " + format_number(clicks))
@@ -47,6 +54,15 @@ if uploaded_file and upload_button:
 
     with st.expander("Charts", expanded=False):
         st.markdown("#### Average CTR by Position")
-        st.pyplot(fig=avg_ctr_by_position(uploaded_file))
+        ctr_figure = avg_ctr_by_position(uploaded_file)
+        st.pyplot(fig=ctr_figure)
+        with st.spinner("Generating insights..."):
+            st.markdown("**Chart Analysis:**")
+            st.markdown(st.session_state.agent.ctr_chart_analysis(ctr_figure))
+
         st.markdown("#### Click Variance")
-        st.pyplot(fig=click_variance(uploaded_file))
+        click_variance_figure = click_variance(uploaded_file)
+        st.pyplot(fig=click_variance_figure)
+        with st.spinner("Generating insights..."):
+            st.markdown("**Chart Analysis:**")
+            st.markdown(st.session_state.agent.click_variance_analysis(click_variance_figure))
