@@ -1,2 +1,5 @@
 pandas
 pytrends
+pycountry
+langchain_community
+beautifulsoup4
