@@ -2,7 +2,6 @@
 import warnings
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure
 
 from .utils import preprocessing_queries, preprocessing_dates
 warnings.filterwarnings('ignore')
@@ -17,14 +16,15 @@ def avg_ctr_by_position(data):
     query_analysis = df.pivot_table(index=['Position'], values=['CTR'], aggfunc=['mean'])
     query_analysis.sort_values(by=['Position'], ascending=True).head(10)
 
-    ax = query_analysis.head(10).plot(kind='bar')
+    fig, ax = plt.subplots(figsize=(8, 6))
+    query_analysis.head(10).plot(kind='bar', ax=ax)
     ax.set_xlabel('Avg. Position')
     ax.set_ylabel('CTR')
     ax.set_title('CTR by avg. Position')
     ax.grid('on')
     ax.get_legend().remove()
-    plt.xticks(rotation=0)
-    return plt.show()
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=0, ha="center")
+    return fig
 
 def click_variance(data):
     """
@@ -32,7 +32,7 @@ def click_variance(data):
     """
     df = preprocessing_dates(data)
 
-    figure(figsize=(8, 6), dpi=80)
+    fig, ax = plt.subplots(figsize=(8, 6))
     ax = df.plot(color='red')
     ax.grid('on')
     ax.set_ylabel('Sum of clicks')
@@ -56,4 +56,4 @@ def click_variance(data):
     ax.yaxis.set_label_coords(-.15, .50)
     ax.fill_between(df.index, df.values, facecolor='yellow')
     
-    return plt.show()
+    return fig
